@@ -1,0 +1,19 @@
+<ion-view>
+    <ion-nav-buttons side="right">
+        <a ui-sref="addIdid" class="button button-clear icon-right ion-android-add-circle">
+        </a>
+    </ion-nav-buttons>
+
+    <ion-content>
+        <ion-list>
+            <ion-item class="idid-item" ng-repeat="idid in idids">
+                <div ng-class="'item-title-'+idid.color">
+                    <span>{{idid.category}}</span>
+                </div>
+                <div ng-class="'item-description-'+idid.color">
+                    <p >{{idid.description}}</p>
+                </div>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,25 @@
+<ion-view>
+    <div class="bar bar-subheader bar-dark">
+        <h2 class="title">New iDid</h2>
+    </div>
+
+    <ion-content class="has-subheader">
+        <div class="list">
+
+            <label class="item item-input item-select">
+                <div class="input-label">
+                    Category
+                </div>
+                <select ng-options="category.name for category in categories" ng-model="newIdid.category"></select>
+                </select>
+            </label>
+
+            <label class="item item-input">
+                <input type="text" ng-model="newIdid.description" placeholder="Description"/>
+            </label>
+        </div>
+        <button class="button button-block button-balanced" ng-click="addIdid(newIdid)">
+            <span>Add</span>
+        </button>
+    </ion-content>
+</ion-view>
