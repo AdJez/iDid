@@ -11,13 +11,16 @@ angular.module('ionic.utils', [])
       $window.localStorage[key] = JSON.stringify(value);
     },
     getObject: function(key) {
-      return JSON.parse($window.localStorage[key] || 'EMPTY');
+      return JSON.parse($window.localStorage[key] || '[]');
+    },
+    removeItem: function(key){
+      $window.localStorage.removeItem(key);
     }
   }
 }]);
 
 angular.module('ididApp', ['ionic','ui.router','ionic.utils'])
-    .run(function($ionicPlatform) {
+    .run(function($ionicPlatform,$localstorage) {
         $ionicPlatform.ready(function() {
             if(window.cordova && window.cordova.plugins.Keyboard) {
                 cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
@@ -25,19 +28,18 @@ angular.module('ididApp', ['ionic','ui.router','ionic.utils'])
             if(window.StatusBar) {
                 StatusBar.styleDefault();
             }
+            $localstorage.setObject('categories', ['Activities','Daily','Personal','Work']);
+            if($localstorage.get('ididCount',0) == 0) {
+                $localstorage.set('ididCount', 1);
+                $localstorage.set('idids', []);
+            }
+            else {
+                $localstorage.set('ididCount',  parseInt($localstorage.get('ididCount')) + 1);
+            }
+
         });
     })
 
-.run(function($localstorage) {
-    if($localstorage.getObject('idids') == 'EMPTY') {
-        $localstorage.setObject('idids', []);
-    };
-    $localstorage.setObject('categories', [
-        {id: 1, name: 'Ionic',     color: 'positive'},
-        {id: 2, name: 'AngularJs', color: 'assertive'},
-        {id: 3, name: 'GitHub',    color: 'dark'}
-    ]);
-})
 .factory('ididStorage', function($localstorage) {
   var savedIdidsArray,
       newIdidsArray,
@@ -56,6 +58,15 @@ angular.module('ididApp', ['ionic','ui.router','ionic.utils'])
     getCategories: function() {
       categoriesArray = $localstorage.getObject('categories');
       return categoriesArray;
+    },
+    isFirstTime: function() {
+      return ($localstorage.get('ididCount') == '1' ) ? true : false;
+    },
+    isEmptyList: function() {
+        return ($localstorage.getObject('idids').length == 0) ? true : false;
+    },
+    removeAll: function() {
+        $localstorage.removeItem('idids');
     }
   }
 })
@@ -75,22 +86,43 @@ angular.module('ididApp', ['ionic','ui.router','ionic.utils'])
       })
 })
 
-.controller('MainController',function($scope,ididStorage) {
+.controller('MainController',function($scope,$ionicPopup,ididStorage) {
+        $scope.isFirstTime = ididStorage.isFirstTime();
+        $scope.isEmptyList = ididStorage.isEmptyList();
+        if($scope.isFirstTime)
+            $ionicPopup.alert({
+                title: 'Welcome for the first time!',
+                template: 'Just press the + at the top right corner to add a new item',
+                okType: 'button-balanced'
+            });
         $scope.idids = ididStorage.getIdids();
+        $scope.removeAllIdids = function() {
+            ididStorage.removeAll('idids');
+            $scope.idids = [];
+            $scope.isEmptyList = true;
+        };
 
         $scope.$on('addIdid', function(event,data){
+            $scope.isEmptyList =false;
             $scope.idids.push({description: data.description, category: data.category});
         });
 })
 
 .controller('AddIdidController',function($scope,$state,ididStorage) {
         $scope.categories = ididStorage.getCategories();
-        $scope.addIdid = function (idid) {
-            var newIdid = {};
-            newIdid.category = idid.category.name;
-            newIdid.description = idid.description;
-            ididStorage.addIdid(newIdid);
-            $scope.$emit('addIdid',newIdid);
-            $state.go('idids');
+        $scope.newIdid = {category: "Activities"};
+        $scope.addIdid = function () {
+            if($scope.newIdid.description) {
+                ididStorage.addIdid({
+                    category: $scope.newIdid.category,
+                    description: $scope.newIdid.description
+                });
+                $scope.$emit('addIdid',$scope.newIdid);
+                $scope.newIdid.description = "";
+                $state.go('idids');
+            }
+            else {
+                console.log("No description!");
+            }
         };
 });

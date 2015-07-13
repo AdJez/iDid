@@ -3,17 +3,19 @@
         <a ui-sref="addIdid" class="button button-clear icon-right ion-android-add-circle">
         </a>
     </ion-nav-buttons>
-
+    <ion-nav-title>Items List</ion-nav-title>
     <ion-content>
         <ion-list>
             <ion-item class="idid-item" ng-repeat="idid in idids">
-                <div ng-class="'item-title-'+idid.color">
+                <div>
                     <span>{{idid.category}}</span>
                 </div>
-                <div ng-class="'item-description-'+idid.color">
+                <div>
                     <p >{{idid.description}}</p>
                 </div>
             </ion-item>
+            <button class="button button-full button-assertive" ng-show="!isEmptyList" ng-click="removeAllIdids()">Remove all items</button>
         </ion-list>
+        <p class="empty-list" ng-show="isEmptyList">EMPTY</p>
     </ion-content>
 </ion-view>

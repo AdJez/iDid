@@ -1,1 +1,8 @@
-/* Empty. Add your own CSS if you like */
+.empty-list{
+    height:300px;
+    line-height:300px;
+    font-size: 35px;
+    text-align:center;
+    color: #e7e3e9;
+    text-shadow: -1px 1px #cacaca;
+}
