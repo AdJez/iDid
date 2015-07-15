@@ -28,7 +28,6 @@ angular.module('ididApp', ['ionic','ui.router','ionic.utils'])
             if(window.StatusBar) {
                 StatusBar.styleDefault();
             }
-            $localstorage.setObject('categories', ['Activities','Daily','Personal','Work']);
             if($localstorage.get('ididCount',0) == 0) {
                 $localstorage.set('ididCount', 1);
                 $localstorage.set('idids', []);
@@ -109,7 +108,7 @@ angular.module('ididApp', ['ionic','ui.router','ionic.utils'])
 })
 
 .controller('AddIdidController',function($scope,$state,ididStorage) {
-        $scope.categories = ididStorage.getCategories();
+        $scope.categories = ['Activities','Daily','Personal','Work'];
         $scope.newIdid = {category: "Activities"};
         $scope.addIdid = function () {
             if($scope.newIdid.description) {
