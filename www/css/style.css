@@ -1,8 +1,10 @@
 .empty-list{
-    height:300px;
-    line-height:300px;
-    font-size: 35px;
+    margin-top: 100px;
     text-align:center;
+}
+.empty-list > * {
+    line-height:35px;
     color: #e7e3e9;
     text-shadow: -1px 1px #cacaca;
 }
+

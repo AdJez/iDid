@@ -16,6 +16,8 @@
             </ion-item>
             <button class="button button-full button-assertive" ng-show="!isEmptyList" ng-click="removeAllIdids()">Remove all items</button>
         </ion-list>
-        <p class="empty-list" ng-show="isEmptyList">EMPTY</p>
-    </ion-content>
+        <div ng-show="isEmptyList" class="empty-list">
+            <h2>EMPTY</br></h2>
+            <h4> press + to add an item</h4>
+        </div>    </ion-content>
 </ion-view>
