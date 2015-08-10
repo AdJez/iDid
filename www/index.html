@@ -4,11 +4,22 @@
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title></title>
-    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-    <script src="lib/ionic/js/ionic.bundle.js"></script>
-    <script src="cordova.js"></script>
-    <script src="js/app.js"></script>
+    <!-- CSS -->
+      <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+      <link href="css/style.css" rel="stylesheet">
+
+    <!-- IONIC -->
+      <script src="lib/ionic/js/ionic.bundle.js"></script>
+      <script src="cordova.js"></script>
+
+    <!-- LIBRAIRIES -->
+      <script src="lib/localstorage/localstorage.js"></script>
+
+    <!-- ANGULARJS -->
+      <script src="js/app.js"></script>
+      <script src="js/providers/ididStorage.js"></script>
+      <script src="js/controllers/MainController.js"></script>
+      <script src="js/controllers/AddIdidController.js"></script>
   </head>
 
   <body ng-app="ididApp" ng-controller="MainController">
